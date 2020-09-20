@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'the_sandbox',
+    'sandbox_api',
 
     'corsheaders',
 
