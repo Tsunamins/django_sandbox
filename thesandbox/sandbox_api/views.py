@@ -1,20 +1,33 @@
+# original
 from django.shortcuts import render
-
-# Create your views here.
-
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
+
+# Users/Groups
+from sandbox_api.serializers import UserSerializer, GroupSerializer
+
+
+# puppies tests tutorial
+# from rest_framework.decorators import api_view
+# from rest_framework.response import Response
+# from rest_framework import status
+# using these viewsets instead for puppy to be consistent:
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    CreateAPIView,
+    DestroyAPIView,
+    UpdateAPIView
+)
+from .models import Puppy
+from .serializers import PuppySerializer
 
 # from tests tutorial
 # from rest_framework import viewsets, mixins, status
 # from rest_framework import viewsets, mixins
 # from rest_framework.authentication import TokenAuthentication
 # from rest_framework.permissions import IsAuthenticated
-
-from sandbox_api.serializers import UserSerializer, GroupSerializer
-
-# from tests tutorial
 # from . models import Ingredient
 # from . import serializers
 
@@ -35,6 +48,40 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+# puppies tutorial
+class PuppyListView(ListAPIView):
+    queryset = Puppy.objects.all()
+    serializer_class = PuppySerializer
+    permission_classes = (permissions.AllowAny, )
+
+
+class PuppyDetailView(RetrieveAPIView):
+    queryset = Puppy.objects.all()
+    serializer_class = PuppySerializer
+    permission_classes = (permissions.AllowAny, )
+
+
+class PuppyCreateView(CreateAPIView):
+    queryset = Puppy.objects.all()
+    serializer_class = PuppySerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
+
+
+class PuppyUpdateView(UpdateAPIView):
+    queryset = Puppy.objects.all()
+    serializer_class = PuppySerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
+
+
+class PuppyDeleteView(DestroyAPIView):
+    queryset = Puppy.objects.all()
+    serializer_class = PuppySerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
 
 
 # class IngredientViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
