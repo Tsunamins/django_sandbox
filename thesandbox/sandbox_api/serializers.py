@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from core.models import Ingredient
+# from sandbox_api.models import Ingredient
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,9 +15,9 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'name']
 
 
-class IngredientSerializer(serializers.ModelSerializer):
+# class IngredientSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Ingredient
-        fields = ('id', 'name')
-        read_only_fields = ('id',)
+#     class Meta:
+#         model = Ingredient
+#         fields = ('id', 'name')
+#         read_only_fields = ('id',)
