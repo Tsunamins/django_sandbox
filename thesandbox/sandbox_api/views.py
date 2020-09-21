@@ -4,6 +4,8 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 
+from django.core.mail import send_mail
+
 # Users/Groups
 from sandbox_api.serializers import UserSerializer, GroupSerializer
 
@@ -22,6 +24,11 @@ from rest_framework.generics import (
 )
 from .models import Puppy
 from .serializers import PuppySerializer
+
+# bucket list imports
+from rest_framework import generics
+from .serializers import BucketlistSerializer
+from .models import Bucketlist
 
 # from tests tutorial
 # from rest_framework import viewsets, mixins, status
@@ -68,6 +75,8 @@ class PuppyCreateView(CreateAPIView):
     serializer_class = PuppySerializer
     # permission_classes = (permissions.IsAuthenticated, )
     permission_classes = (permissions.AllowAny, )
+    # does send an email had to go to: http://127.0.0.1:8000/create/ to add the puppy based on my poor urls
+    send_mail('Welcoming your new pet', 'Thank you for choosing Pet Care Sobe today!', 'reillyamr@gmail.com', ['reillyamr@gmail.com'], fail_silently=False)
 
 
 class PuppyUpdateView(UpdateAPIView):
@@ -99,3 +108,53 @@ class PuppyDeleteView(DestroyAPIView):
 
 #     def perform_create(self, serializer):
 #         serializer.save(user=self.request.user)
+
+
+# class CreateView(generics.ListCreateAPIView):
+#     """This class defines the create behavior of our rest api."""
+#     queryset = Bucketlist.objects.all()
+#     serializer_class = BucketlistSerializer
+
+#     def perform_create(self, serializer):
+#         """Save the post data when creating a new bucketlist."""
+#         serializer.save()
+
+
+# class DetailsView(generics.RetrieveUpdateDestroyAPIView):
+#     """This class handles the http GET, PUT and DELETE requests."""
+
+#     queryset = Bucketlist.objects.all()
+#     serializer_class = BucketlistSerializer
+
+
+class BucketlistListView(ListAPIView):
+    queryset = Bucketlist.objects.all()
+    serializer_class = BucketlistSerializer
+    permission_classes = (permissions.AllowAny, )
+
+
+class BucketlistDetailView(RetrieveAPIView):
+    queryset = Bucketlist.objects.all()
+    serializer_class = BucketlistSerializer
+    permission_classes = (permissions.AllowAny, )
+
+
+class BucketlistCreateView(CreateAPIView):
+    queryset = Bucketlist.objects.all()
+    serializer_class = BucketlistSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
+
+
+class BucketlistUpdateView(UpdateAPIView):
+    queryset = Bucketlist.objects.all()
+    serializer_class = BucketlistSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
+
+
+class BucketlistDeleteView(DestroyAPIView):
+    queryset = Bucketlist.objects.all()
+    serializer_class = BucketlistSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
