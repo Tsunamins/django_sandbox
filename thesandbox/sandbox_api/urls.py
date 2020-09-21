@@ -5,7 +5,14 @@ from .views import (
     PuppyDetailView,
     PuppyCreateView,
     PuppyUpdateView,
-    PuppyDeleteView
+    PuppyDeleteView,
+    # BucketlistListView,
+    # BucketlistDetailView,
+    # BucketlistCreateView,
+    # BucketlistUpdateView,
+    # BucketlistDeleteView,
+   
+
 )
 
 urlpatterns = [
@@ -13,5 +20,10 @@ urlpatterns = [
     path('create/', PuppyCreateView.as_view()),
     path('<pk>', PuppyDetailView.as_view()),
     path('<pk>/update/', PuppyUpdateView.as_view()),
-    path('<pk>/delete/', PuppyDeleteView.as_view())
+    path('<pk>/delete/', PuppyDeleteView.as_view()),
+    # path('', BucketlistListView.as_view()),
+    # path('create/', BucketlistCreateView.as_view()),
+    # path('<pk>', BucketlistDetailView.as_view()),
+    # path('<pk>/update/', BucketlistUpdateView.as_view()),
+    # path('<pk>/delete/', BucketlistDeleteView.as_view()),
 ]
