@@ -32,7 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'sandbox_api.User'
 
 
 # Application definition
