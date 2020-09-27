@@ -1,5 +1,6 @@
 from django.urls import path
 
+
 from .views import (
     PuppyListView,
     PuppyDetailView,
@@ -11,6 +12,8 @@ from .views import (
     # BucketlistCreateView,
     # BucketlistUpdateView,
     # BucketlistDeleteView,
+    #from custom user tutorial
+    RegisterView,
    
 
 )
@@ -26,4 +29,6 @@ urlpatterns = [
     # path('<pk>', BucketlistDetailView.as_view()),
     # path('<pk>/update/', BucketlistUpdateView.as_view()),
     # path('<pk>/delete/', BucketlistDeleteView.as_view()),
+    #from custom user tutorial
+    path('register/', RegisterView.as_view(), name='register'),
 ]
