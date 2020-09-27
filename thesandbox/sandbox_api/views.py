@@ -1,19 +1,59 @@
-# original
+# original/usual
 from django.shortcuts import render
-from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 
-from django.core.mail import send_mail
+# from custom user tutorial:
+from rest_framework import generics, status
+from .serializers import RegisterSerializer
+from rest_framework.response import Response
 
-# Users/Groups
-from sandbox_api.serializers import UserSerializer, GroupSerializer
+
+# from custom user
+class RegisterView(generics.GenericAPIView):
+
+    serializer_class = RegisterSerializer
+
+    def post(self, request):
+        user = request.data
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        user_data = serializer.data
+
+        return Response(user_data, status=status.HTTP_201_CREATED)
 
 
+# from docs intro using standard models
+# Users/Groups based on standard model
+# from django.contrib.auth.models import User, Group
+# from sandbox_api.serializers import UserSerializer, GroupSerializer
+
+# class UserViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = User.objects.all().order_by('-date_joined')
+#     serializer_class = UserSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+
+# class GroupViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = Group.objects.all()
+#     serializer_class = GroupSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+
+# puppies tutorial
 # puppies tests tutorial
 # from rest_framework.decorators import api_view
 # from rest_framework.response import Response
 # from rest_framework import status
+
 # using these viewsets instead for puppy to be consistent:
 from rest_framework.generics import (
     ListAPIView,
@@ -25,39 +65,6 @@ from rest_framework.generics import (
 from .models import Puppy
 from .serializers import PuppySerializer
 
-# bucket list imports
-from rest_framework import generics
-from .serializers import BucketlistSerializer
-from .models import Bucketlist
-
-# from tests tutorial
-# from rest_framework import viewsets, mixins, status
-# from rest_framework import viewsets, mixins
-# from rest_framework.authentication import TokenAuthentication
-# from rest_framework.permissions import IsAuthenticated
-# from . models import Ingredient
-# from . import serializers
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-# puppies tutorial
 class PuppyListView(ListAPIView):
     queryset = Puppy.objects.all()
     serializer_class = PuppySerializer
@@ -69,14 +76,15 @@ class PuppyDetailView(RetrieveAPIView):
     serializer_class = PuppySerializer
     permission_classes = (permissions.AllowAny, )
 
-
+# for mail
+from django.core.mail import send_mail
 class PuppyCreateView(CreateAPIView):
     queryset = Puppy.objects.all()
     serializer_class = PuppySerializer
     # permission_classes = (permissions.IsAuthenticated, )
     permission_classes = (permissions.AllowAny, )
     # does send an email had to go to: http://127.0.0.1:8000/create/ to add the puppy based on my poor urls
-    send_mail('Welcoming your new pet', 'Thank you for choosing Pet Care Sobe today!', 'reillyamr@gmail.com', ['reillyamr@gmail.com'], fail_silently=False)
+    # send_mail('Welcoming your new pet', 'Thank you for choosing Pet Care Sobe today!', 'reillyamr@gmail.com', ['reillyamr@gmail.com'], fail_silently=False)
 
 
 class PuppyUpdateView(UpdateAPIView):
@@ -92,6 +100,14 @@ class PuppyDeleteView(DestroyAPIView):
     # permission_classes = (permissions.IsAuthenticated, )
     permission_classes = (permissions.AllowAny, )
 
+
+# from tests tutorial for ingredients example
+# from rest_framework import viewsets, mixins, status
+# from rest_framework import viewsets, mixins
+# from rest_framework.authentication import TokenAuthentication
+# from rest_framework.permissions import IsAuthenticated
+# from . models import Ingredient
+# from . import serializers
 
 # class IngredientViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
 #     queryset = Ingredient.objects.all()
@@ -110,22 +126,10 @@ class PuppyDeleteView(DestroyAPIView):
 #         serializer.save(user=self.request.user)
 
 
-# class CreateView(generics.ListCreateAPIView):
-#     """This class defines the create behavior of our rest api."""
-#     queryset = Bucketlist.objects.all()
-#     serializer_class = BucketlistSerializer
-
-#     def perform_create(self, serializer):
-#         """Save the post data when creating a new bucketlist."""
-#         serializer.save()
-
-
-# class DetailsView(generics.RetrieveUpdateDestroyAPIView):
-#     """This class handles the http GET, PUT and DELETE requests."""
-
-#     queryset = Bucketlist.objects.all()
-#     serializer_class = BucketlistSerializer
-
+# bucket list imports and example
+from rest_framework import generics
+from .serializers import BucketlistSerializer
+from .models import Bucketlist
 
 class BucketlistListView(ListAPIView):
     queryset = Bucketlist.objects.all()
