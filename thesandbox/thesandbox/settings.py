@@ -99,6 +99,14 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+  
+}
 
 
 # Password validation
@@ -141,8 +149,9 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
+EMAIL_HOST_USER = 'reillyamr@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDINBLUE')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+DEFAULT_FROM_EMAIL = "reillyamr@gmail.com"
