@@ -12,6 +12,8 @@ from .models import User
 from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+import jwt
+from django.conf import settings
 
 # from custom user
 class RegisterView(generics.GenericAPIView):
@@ -33,7 +35,7 @@ class RegisterView(generics.GenericAPIView):
         relativeLink = reverse('verify-email')
         
         absurl = 'http://' + current_site + relativeLink + "?token=" + str(token)
-        email_body = 'Welcome ' + user.email + 'User the link below to verify your email. \n' + absurl
+        email_body = 'Welcome ' + user.email + '\n Use the link below to verify your email. \n' + absurl
         data = {'email_body':email_body, 'to_email': user.email, 'email_subject':'Verify your email'}
         Util.send_email(data)
 
@@ -42,8 +44,25 @@ class RegisterView(generics.GenericAPIView):
 
 
 class VerifyEmail(generics.GenericAPIView):
-    def get(self):
-        pass
+    def get(self, request):
+        token = request.GET.get('token')
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY)
+            user = User.objects.get(id=payload['user_id'])
+            if not user.is_verified:
+                user.is_verified = True
+                user.save()
+
+            return Response({'email': 'Sucessfully Activated'}, status=status.HTTP_200_OK)
+
+        except jwt.ExpiredSignatureError as identifier:
+            return Response({'error': 'Activation Link Expired'}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as identifier:
+            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 # from docs intro using standard models
