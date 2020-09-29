@@ -34,6 +34,10 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'sandbox_api.User'
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+}
+
 
 # Application definition
 
