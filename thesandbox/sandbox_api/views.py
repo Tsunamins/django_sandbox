@@ -43,6 +43,7 @@ class RegisterView(generics.GenericAPIView):
 
 
 class VerifyEmail(generics.GenericAPIView):
+    serializer_class = EmailVerificationSerializer
     def get(self, request):
         token = request.GET.get('token')
         try:
