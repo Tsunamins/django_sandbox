@@ -12,7 +12,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ['email', 'password']
 
-class EmailVerificationSerilaizer(serializers.ModelSerializer):
+class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=555)
 
     class Meta:
