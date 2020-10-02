@@ -14,7 +14,8 @@ from .views import (
     # BucketlistDeleteView,
     #from custom user tutorial
     RegisterView,
-    VerifyEmail
+    VerifyEmail,
+    LoginAPIView
    
 
 )
@@ -32,5 +33,7 @@ urlpatterns = [
     # path('bucketlist/<pk>/delete/', BucketlistDeleteView.as_view()),
     #from custom user tutorial
     path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginAPIView.as_view(), name='login'),
+
     path('verify-email/', VerifyEmail.as_view(), name='verify-email'),
 ]
